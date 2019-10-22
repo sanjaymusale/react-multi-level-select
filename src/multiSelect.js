@@ -42,7 +42,7 @@ class MultiSelect extends React.Component {
 
   renderOptionsSelected = values => (
     values.map((item, i) => (
-      <div key={i} className="selected">
+      <div key={i} className="selected" onClick={(event) => event.stopPropagation()}>
         <div className="groupHead">
           {item.label}
           {':'}
@@ -86,7 +86,7 @@ class MultiSelect extends React.Component {
   }
 
   handleClickOutside = () => {
-    this.setState({ showMenu: false });
+    this.state.showMenu && this.setState({ showMenu: false });
   }
 
   toggleMenu = () => {
@@ -156,8 +156,8 @@ class MultiSelect extends React.Component {
     const { values, showMenu } = this.state;
     return (
       <div className="multi-level-selector-container">
-        <div className="multi-select-container">
-          <div className="multi-select">
+        <div className="multi-select-container" >
+          <div className="multi-select" onClick={this.toggleMenu}>
             {!values.length && this.renderPlaceholder()}
             {this.renderOptionsSelected(values)}
           </div>
