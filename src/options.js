@@ -1,26 +1,16 @@
 const options = [
   {
-    value: 'department',
-    label: 'Department',
+    value: 'city',
+    label: 'City',
     options: [
       {
-        value: 'customer success',
-        label: 'Customer success',
+        value: 'delhi',
+        label: 'Delhi',
       },
       {
-        value: 'marketing',
-        label: 'Marketing',
+        value: 'dublin',
+        label: 'Dublin',
       },
-      {
-        value: 'operations',
-        label: 'Operations',
-      },
-    ],
-  },
-  {
-    value: 'office location',
-    label: 'Office Location',
-    options: [
       {
         value: 'new york',
         label: 'New York',
@@ -30,38 +20,65 @@ const options = [
         label: 'San Fransis',
       },
       {
-        value: 'dublin',
-        label: 'Dublin',
+        value: 'shanghai',
+        label: 'Shanghai',
+      },
+
+    ],
+  },
+  {
+    value: 'fruits',
+    label: 'Fruits',
+    options: [
+      {
+        value: 'apple',
+        label: 'Apple',
+      },
+      {
+        value: 'blackberry',
+        label: 'Blackberry',
+      },
+      {
+        value: 'cherry',
+        label: 'Cherry',
+      },
+      {
+        value: 'dragonfruit',
+        label: 'Dragonfruit',
+      },
+      {
+        value: 'mango',
+        label: 'Mango',
       },
     ],
   },
   {
-    value: 'role',
-    label: 'Role',
+    value: 'user',
+    label: 'User',
     options: [
       {
-        value: 'office manager',
-        label: 'Office Manager',
+        value: 'bob frapples',
+        label: 'Bob Frapples',
       },
       {
-        value: 'csm',
-        label: 'CSM',
+        value: 'brock lee',
+        label: 'Brock Lee',
       },
       {
-        value: 'ae',
-        label: 'AE',
+        value: 'eddy kitt',
+        label: 'Eddy Kitt',
       },
       {
-        value: 'vp of sales',
-        label: 'VP of sales',
+        value: 'juan annatoo',
+        label: 'Juan Annatoo',
       },
       {
-        value: 'ceo',
-        label: 'CEO',
+        value: 'tara misu',
+        label: 'Tara Misu',
       },
       {
-        value: 'cfo',
-        label: 'CFO',
+        value: 'tom ollie',
+        label: 'Tom Ollie',
       },
     ],
   },
