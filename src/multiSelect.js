@@ -3,25 +3,26 @@ import PropTypes from 'prop-types';
 import listensToClickOutside from 'react-onclickoutside';
 import './style.scss';
 
-class MultiSelect extends React.Component {
+class MultiLevelSelect extends React.Component {
   constructor() {
     super();
     this.state = {
       values: [],
-      showMenu: false,
+      isMenuOpen: false,
     };
   }
 
-  selectOption = (data, e) => {
+  selectOption = (data, event) => {
     const { values } = this.state;
-    const { value, name, checked } = e.target;
+    const { value, name, checked } = event.target;
     if (checked) {
       const selectedOption = {
         value,
         label: name,
       };
       if (!values.some(item => item.value === data.value)) {
-        this.setState({ values: [...values, { ...data, options: [selectedOption] }] }, this.onOptionsChange);
+        this.setState({ values: [...values, { ...data, options: [selectedOption] }] },
+          this.onOptionsChange);
       } else {
         const selectedOptions = values.map((item) => {
           if (item.value === data.value) {
@@ -33,16 +34,17 @@ class MultiSelect extends React.Component {
       }
     } else {
       const uncheckedOption = values.map(item => (
-        { ...item, options: item.options.filter(i => i.value !== value) }
-      )).filter(filtering => filtering.options.length !== 0);
+        { ...item, options: item.options.filter(option => option.value !== value) }
+      )).filter(filterOption => filterOption.options.length !== 0);
       this.setState({ values: uncheckedOption }, this.onOptionsChange);
     }
   }
 
-  renderOptionsSelected = values => {
+  renderOptionsSelected = (values) => {
     const { className } = this.props;
     return values.map((item, i) => (
-      <div key={i}
+      <div
+        key={i}
         className={`options-selected-container ${className && `${className}-options-selected-container`}`}
         onClick={event => event.stopPropagation()}
       >
@@ -74,7 +76,7 @@ class MultiSelect extends React.Component {
           &#10005;
         </div>
       </div>
-    ))
+    ));
   }
 
   onOptionsChange = () => {
@@ -89,21 +91,21 @@ class MultiSelect extends React.Component {
   }
 
   handleClickOutside = () => {
-    const { showMenu } = this.state;
-    return showMenu && this.setState({ showMenu: false });
+    const { isMenuOpen } = this.state;
+    return isMenuOpen && this.setState({ isMenuOpen: false });
   }
 
   toggleMenu = () => {
-    const { showMenu } = this.state;
-    this.setState({ showMenu: !showMenu });
+    const { isMenuOpen } = this.state;
+    this.setState({ isMenuOpen: !isMenuOpen });
   }
 
   renderButton = () => {
-    const { showMenu } = this.state;
+    const { isMenuOpen } = this.state;
     const { className } = this.props;
     return (
       <div className="multi-selector-button" onClick={this.toggleMenu}>
-        <div className={showMenu ? `arrow-up ${className && `${className}-arrow-up`}` : `arrow-down ${className && `${className}-arrow-up`}`} />
+        <div className={isMenuOpen ? `arrow-up ${className && `${className}-arrow-up`}` : `arrow-down ${className && `${className}-arrow-up`}`} />
       </div>
     );
   }
@@ -122,7 +124,7 @@ class MultiSelect extends React.Component {
     const { options, className } = this.props;
 
     return (
-      <div className="options-main-menu" >
+      <div className="options-main-menu">
         {
           options.map((item, i) => (
             <div key={i} className="options-container">
@@ -147,7 +149,7 @@ class MultiSelect extends React.Component {
                                 && value.options.some(data => data.value === subItem.value))
                             }
                             name={subItem.label}
-                            onChange={e => this.selectOption({ value: item.value, label: item.label }, e)}
+                            onChange={event => this.selectOption({ value: item.value, label: item.label }, event)}
                           />
                           <div className="checkbox"><span className="checkmark" /></div>
                           <div className={`options-label ${className && `${className}-options-label`}`}>{subItem.label}</div>
@@ -165,12 +167,12 @@ class MultiSelect extends React.Component {
   }
 
   render() {
-    const { values, showMenu } = this.state;
+    const { values, isMenuOpen } = this.state;
     const { className } = this.props;
     return (
       <div className="multi-level-selector-container">
         <div
-          className={`multi-selector-container ${className && `${className}-multi-selector-container`} ${showMenu ? `active ${className && `${className}-active`}` : 'inactive'}`}
+          className={`multi-selector-container ${className && `${className}-multi-selector-container`} ${isMenuOpen ? `active ${className && `${className}-active`}` : 'inactive'}`}
         >
           <div className="multi-selector" onClick={this.toggleMenu}>
             {!values.length && this.renderPlaceholder()}
@@ -178,7 +180,7 @@ class MultiSelect extends React.Component {
           </div>
           {this.renderButton()}
         </div>
-        <div className={`multi-level-options-container ${className && `${className}-multi-level-options-container`} ${showMenu ? `menu-open ${className && `${className}-menu-open`}` : `menu-close ${className && `${className}-menu-open`}`}`}>
+        <div className={`multi-level-options-container ${className && `${className}-multi-level-options-container`} ${isMenuOpen ? `menu-open ${className && `${className}-menu-open`}` : `menu-close ${className && `${className}-menu-open`}`}`}>
           {this.renderOptions()}
         </div>
       </div>
@@ -186,7 +188,7 @@ class MultiSelect extends React.Component {
   }
 }
 
-MultiSelect.propTypes = {
+MultiLevelSelect.propTypes = {
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
   options: PropTypes.arrayOf(PropTypes.shape({
@@ -200,11 +202,11 @@ MultiSelect.propTypes = {
   className: PropTypes.string,
 };
 
-MultiSelect.defaultProps = {
+MultiLevelSelect.defaultProps = {
   placeholder: '',
   options: [],
   onChange: () => { },
-  className: ''
+  className: '',
 };
 
-export default listensToClickOutside(MultiSelect);
+export default listensToClickOutside(MultiLevelSelect);
