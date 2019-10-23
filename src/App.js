@@ -32,14 +32,16 @@ class App extends React.Component {
             className="test"
           />
         </div>
-        <p>Output</p>
-        <div className="output" id="OutputCont">
-          <ReactJson
-            src={this.state.values}
-            enableClipboard={false}
-            displayDataTypes={false}
-            displayObjectSize={false}
-          />
+        <div className="output-container">
+          <p>Output</p>
+          <div className="output" id="OutputCont">
+            <ReactJson
+              src={this.state.values}
+              enableClipboard={false}
+              displayDataTypes={false}
+              displayObjectSize={false}
+            />
+          </div>
         </div>
       </div>
     );
