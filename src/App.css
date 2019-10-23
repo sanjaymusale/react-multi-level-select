@@ -2,13 +2,34 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .multi-level {
   width: 50%;
+  min-height: 450px;
+}
+
+.output {
+  min-height: 300px;
+  max-height: 300px;
+  overflow-x: auto;
+  width: 50%;
+  border: 1px solid grey;
+  padding: 15px 0 15px 15px;
 }
 
 .title {
   font-size: 16px;
   font-weight: 500;
+}
+
+@media screen and (max-width: 768px) {
+  .multi-level {
+    width: 95%;
+  }
+
+  .output {
+    width: 90%;
+  }
 }
