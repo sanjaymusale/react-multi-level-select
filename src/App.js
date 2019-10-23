@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactJson from 'react-json-view'
+import { animateScroll } from "react-scroll";
 import './App.css';
 import MultiSelect from './multiSelect';
 import options from './options';
@@ -11,8 +12,14 @@ class App extends React.Component {
     }
   }
 
+  scrollToBottom = () => {
+    animateScroll.scrollToBottom({
+      containerId: "OutputCont"
+    });
+  };
+
   onChange = (values) => {
-    this.setState({ values });
+    this.setState({ values }, this.scrollToBottom);
   }
   render() {
     return (
@@ -25,7 +32,7 @@ class App extends React.Component {
           />
         </div>
         <p>Output</p>
-        <div className="output">
+        <div className="output" id="OutputCont">
           <ReactJson
             src={this.state.values}
             enableClipboard={false}
