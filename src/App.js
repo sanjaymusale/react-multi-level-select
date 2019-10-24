@@ -23,27 +23,30 @@ class App extends React.Component {
   }
   render() {
     return (
-      <div className="container">
-        <div className="multi-level">
-          <p className="title">React Multi Level Selector</p>
-          <MultiSelect
-            options={options}
-            onChange={this.onChange}
-            className="test"
-          />
-        </div>
-        <div className="output-container">
-          <p>Output</p>
-          <div className="output" id="OutputCont">
-            <ReactJson
-              src={this.state.values}
-              enableClipboard={false}
-              displayDataTypes={false}
-              displayObjectSize={false}
+      <>
+        <div className="header">Demo of React Multi Level Selector</div>
+        <div className="container">
+          <div className="multi-level">
+            <p className="title">React Multi Level Selector</p>
+            <MultiSelect
+              options={options}
+              onChange={this.onChange}
+              className="test"
             />
           </div>
+          <div className="output-container">
+            <p>Output</p>
+            <div className="output" id="OutputCont">
+              <ReactJson
+                src={this.state.values}
+                enableClipboard={false}
+                displayDataTypes={false}
+                displayObjectSize={false}
+              />
+            </div>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 }
