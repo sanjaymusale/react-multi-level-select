@@ -28,31 +28,45 @@ class MultiLevelSelect extends React.Component {
         value,
         label: name,
       };
-      if (values.some(item => item.value === data.value)) {
-        const selectedOptions = values.map((item) => {
-          if (item.value === data.value) {
-            return { ...item, options: [...item.options, selectedOption] };
-          }
-          return item;
-        });
-        this.setState({ values: selectedOptions }, this.onOptionsChange);
-      } else {
-        this.setState({ values: [...values, { ...data, options: [selectedOption] }] },
-          this.onOptionsChange);
+
+      let optionNotAvailable = true;
+
+      if (values.length === 0) {
+        return this.setState(
+          { values: [...values, { ...data, options: [selectedOption] }] },
+          this.onOptionsChange,
+        );
       }
-    } else {
-      const uncheckedOption = values.map(item => (
-        { ...item, options: item.options.filter(option => option.value !== value) }
-      )).filter(filterOption => filterOption.options.length !== 0);
-      this.setState({ values: uncheckedOption }, this.onOptionsChange);
+
+      const selectedOptions = values.map((item) => {
+        if (item.value === data.value) {
+          optionNotAvailable = false;
+          return { ...item, options: [...item.options, selectedOption] };
+        }
+        return item;
+      });
+
+      if (optionNotAvailable) {
+        return this.setState(
+          { values: [...values, { ...data, options: [selectedOption] }] },
+          this.onOptionsChange,
+        );
+      }
+
+      return this.setState({ values: selectedOptions }, this.onOptionsChange);
     }
+
+    const uncheckedOption = values.map(item => (
+      { ...item, options: item.options.filter(option => option.value !== value) }
+    )).filter(filterOption => filterOption.options.length !== 0);
+    return this.setState({ values: uncheckedOption }, this.onOptionsChange);
   }
 
-  renderOptionsSelected = (values) => (
+  renderOptionsSelected = values => (
     values.map((item, i) => (
       <div
         key={i}
-        className={`options-selected-container ${this.getClassName(`options-selected-container`)}`}
+        className={`options-selected-container ${this.getClassName('options-selected-container')}`}
         onClick={event => event.stopPropagation()}
       >
         <div className={`options-group ${this.getClassName('options-group')}`}>
@@ -157,7 +171,9 @@ class MultiLevelSelect extends React.Component {
                                 && value.options.some(data => data.value === subItem.value))
                             }
                             name={subItem.label}
-                            onChange={event => this.selectOption({ value: item.value, label: item.label }, event)}
+                            onChange={event => this.selectOption(
+                              { value: item.value, label: item.label }, event,
+                            )}
                           />
                           <div className="checkbox"><span className="checkmark" /></div>
                           <div className={`options-label ${this.getClassName('options-label')}`}>{subItem.label}</div>
