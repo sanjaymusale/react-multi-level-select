@@ -1,4 +1,4 @@
-const options = [
+var options = [
   {
     value: 'city',
     label: 'City',
@@ -6,24 +6,6 @@ const options = [
       {
         value: 'delhi',
         label: 'Delhi',
-        options: [
-          {
-            value: 'area 1',
-            label: 'Area 1',
-          },
-          {
-            value: 'area 2',
-            label: 'Area 2',
-          },
-          {
-            value: 'area 3',
-            label: 'Area 3',
-          },
-        ],
-      },
-      {
-        value: 'san fransis',
-        label: 'San Fransis',
         options: [
           {
             value: 'area 1',
@@ -44,12 +26,50 @@ const options = [
             ],
           },
           {
-            value: 'area 2',
-            label: 'Area 2',
-          },
-          {
             value: 'area 3',
             label: 'Area 3',
+          },
+        ],
+      },
+      {
+        value: 'bangalore',
+        label: 'Bangalore',
+      },
+      {
+        value: 'hubli',
+        label: 'Hubli',
+      }
+    ],
+  },
+  {
+    value: 'office',
+    label: 'Office',
+    options: [
+      {
+        value: 'c',
+        label: 'c',
+        options: [
+          {
+            value: 'd 1',
+            label: 'd 1',
+            options: [
+              {
+                value: 'e 1',
+                label: 'e 1',
+              },
+              {
+                value: 'e 2',
+                label: 'e 2',
+              },
+              {
+                value: 'e 3',
+                label: 'e 3',
+              },
+            ],
+          },
+          {
+            value: 'd 3',
+            label: 'd 3',
           },
         ],
       },

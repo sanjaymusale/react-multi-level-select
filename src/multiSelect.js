@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import listensToClickOutside from 'react-onclickoutside';
 import suffixedClassName from './suffixedClassName';
+import find from './helper';
 import './style.scss';
 
 class MultiLevelSelect extends React.Component {
@@ -19,9 +20,11 @@ class MultiLevelSelect extends React.Component {
     return suffixedClassName(className, suffix);
   }
 
-  selectOption = (data, event) => {
+  selectOption = (data, parent, event) => {
+    console.log('select data', data);
     const { values } = this.state;
     const { value, name, checked } = event.target;
+    let recur = [];
 
     if (checked) {
       const selectedOption = {
@@ -29,31 +32,30 @@ class MultiLevelSelect extends React.Component {
         label: name,
       };
 
-      let optionNotAvailable = true;
+      const parentValue = data[0].value;
 
-      if (values.length === 0) {
+      const findIndex = values.findIndex(x => x.value === parentValue);
+      if (findIndex === -1) {
+        console.log('-1 recur', this.recur(data, parent, selectedOption))
         return this.setState(
-          { values: [...values, { ...data, options: [selectedOption] }] },
+          { values: [...values, ...this.recur(data, parent, selectedOption)] },
           this.onOptionsChange,
         );
       }
 
-      const selectedOptions = values.map((item) => {
-        if (item.value === data.value) {
-          optionNotAvailable = false;
-          return { ...item, options: [...item.options, selectedOption] };
-        }
-        return item;
+      let optionsData = values[findIndex];
+
+
+      recur = this.recur(data, parent, selectedOption, [optionsData]);
+
+
+      const newData = values.map(i => {
+        if (i.value === parentValue)
+          return recur[0];
+        return i
       });
 
-      if (optionNotAvailable) {
-        return this.setState(
-          { values: [...values, { ...data, options: [selectedOption] }] },
-          this.onOptionsChange,
-        );
-      }
-
-      return this.setState({ values: selectedOptions }, this.onOptionsChange);
+      return this.setState({ values: newData }, this.onOptionsChange);
     }
 
     const uncheckedOption = values.map(item => (
@@ -61,6 +63,22 @@ class MultiLevelSelect extends React.Component {
     )).filter(filterOption => filterOption.options.length !== 0);
     return this.setState({ values: uncheckedOption }, this.onOptionsChange);
   }
+
+  recur = (data, parent, selectedOption, optionsData = []) => {
+    return data.map(e => {
+      if (e.options) {
+        if (e.value === parent) {
+          const optionAvailable = e.options.findIndex(x => x.value === selectedOption.value);
+          if (optionAvailable === -1)
+            return { ...e, options: [...e.options, selectedOption] }
+          return e
+        }
+        return { ...e, options: [...this.recur(e.options, parent, selectedOption, optionsData)] }
+      }
+      return e
+    })
+  }
+
 
   renderOptionsSelected = values => (
     values.map((item, i) => (
@@ -141,7 +159,6 @@ class MultiLevelSelect extends React.Component {
     );
   }
 
-
   renderOptions = (options, parent = {}) => {
     return (
       <>
@@ -163,7 +180,9 @@ class MultiLevelSelect extends React.Component {
   }
 
   renderSubMenu = (item, parent = {}) => {
-    const { values } = this.state
+    const { values } = this.state;
+    const { options } = this.props;
+    // console.log(options);
     if (item.options) {
       return (
         <>
@@ -189,9 +208,12 @@ class MultiLevelSelect extends React.Component {
               checked={values.some(value => value.value === parent.value
                 && value.options.some(data => data.value === item.value))}
               name={item.label}
-              onChange={event => this.selectOption(
-                { value: parent.value, label: parent.label }, event,
-              )}
+              onChange={(event) => {
+                let self = this
+                find(values, { value: item.value, label: item.label }, item.value, options, [], function (data) {
+                  self.selectOption(data, parent.value, event)
+                })
+              }}
             />
             <div className="checkbox"><span className="checkmark" /></div>
             <div className={`options-label ${this.getClassName('options-label')}`}>{item.label}</div>
@@ -202,7 +224,7 @@ class MultiLevelSelect extends React.Component {
   }
 
   optionChecked = (data, value, parent) => {
-    console.log(parent)
+    // console.log(parent)
     return data.some((e) => {
       return (e.value === parent &&
         (e.options && this.optionChecked(e.options, value, value)))
