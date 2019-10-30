@@ -60,10 +60,22 @@ class MultiLevelSelect extends React.Component {
       return this.setState({ values: newData }, this.onOptionsChange);
     }
 
-    const uncheckedOption = values.map(item => (
-      { ...item, options: item.options.filter(option => option.value !== value) }
-    )).filter(filterOption => filterOption.options.length !== 0);
+    // const uncheckedOption = values.map(item => (
+    //   { ...item, options: item.options.filter(option => option.value !== value) }
+    // )).filter(filterOption => filterOption.options.length !== 0);
+    const uncheckedOption = this.removeOption([...values], value)
+    console.log('uncheckedOption', uncheckedOption);
     return this.setState({ values: uncheckedOption }, this.onOptionsChange);
+  }
+
+  removeOption = (values, removeValue) => {
+    return values.filter(function f(o) {
+      if (o.value.includes(removeValue)) return false
+      if (o.options) {
+        return (o.options = o.options.filter(f)).length
+      }
+      return true
+    })
   }
 
   recur = (data, parent, selectedOption, optionsData = []) => {
