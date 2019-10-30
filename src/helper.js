@@ -33,7 +33,8 @@ const findOption = (current, item, selectedOption) => {
 
   const optionsData = item.find(x => x.value === addOption[0].value);
 
-  const opt = addNewOptions([optionsData], addOption, selectedOption)
+  const opt = addNewOptions([optionsData], addOption, selectedOption);
+
   if (opt !== undefined) {
     return opt
   }
@@ -80,7 +81,7 @@ const addNewOptions = (optionsData = [], data, parent) => {
 
 //adds the previous selected options within the options of the parent
 const recur = (optionsData, data) => {
-  console.log('optionsData', optionsData)
+  // console.log('optionsData', optionsData)
   for (let i = 0; i <= optionsData.length - 1; i++) {
     for (let j = 0; j <= data.length - 1; j++) {
 
@@ -94,13 +95,13 @@ const recur = (optionsData, data) => {
             return item
           })]
 
-          console.log('data[j].options', j, data[j].options)
+          // console.log('data[j].options', j, data[j].options)
           recur(optionsData[i].options, data)
         }
       }
     }
   }
-  console.log('recurerwrwewer', data);
+  // console.log('recurerwrwewer', data);
   return data;
 }
 export default find;

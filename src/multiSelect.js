@@ -187,6 +187,19 @@ class MultiLevelSelect extends React.Component {
     );
   }
 
+  optionChecked = (values, optionValue, checked) => (
+    values.some(e => {
+      if (e.value === optionValue) {
+        checked = true
+      }
+      if (checked === true)
+        return checked
+      if (e.options)
+        return this.optionChecked(e.options, optionValue, checked)
+      return false;
+    })
+  )
+
   renderSubMenu = (item, parent = {}) => {
     const { values } = this.state;
     const { options } = this.props;
@@ -219,7 +232,6 @@ class MultiLevelSelect extends React.Component {
               onChange={(event) => {
                 let self = this
                 find(values, { value: item.value, label: item.label }, item.value, options, [], function (data) {
-                  // console.log('data received', data);
                   self.selectOption(data, parent.value, event)
                 })
               }}
@@ -231,18 +243,6 @@ class MultiLevelSelect extends React.Component {
       </>
     );
   }
-
-  optionChecked = (values, optionValue, checked) => (
-    values.some(e => {
-      if (e.value === optionValue) {
-        checked = true
-      }
-      if (checked === true)
-        return checked
-      if (e.options)
-        return this.optionChecked(e.options, optionValue, checked)
-    })
-  )
 
   render() {
     const { values, isMenuOpen } = this.state;
