@@ -19,22 +19,20 @@ const find = (item, selectedOption, category, tree, path, callback) => {
 const findOption = (current, item, selectedOption) => {
   let optionData = {};
   let temp2 = {};
+
+  const optionsData = item.find(x => x.value === current[0].value);
+
+  const opt = addNewOptions([optionsData], current, selectedOption);
+
+  if (opt !== undefined) {
+    return opt
+  }
+
   for (var i = current.length - 1; i >= 0; i--) {
     if (i === current.length - 1)
       optionData = { ...current[i], options: [] }
     temp2 = { ...current[i - 1], options: [optionData] }
     optionData = temp2;
-  }
-
-  const addOption = [...current, { ...current[current.length - 1], options: [selectedOption] }];
-  addOption.splice(addOption.length - 2, 1);
-
-  const optionsData = item.find(x => x.value === addOption[0].value);
-
-  const opt = addNewOptions([optionsData], addOption, selectedOption);
-
-  if (opt !== undefined) {
-    return opt
   }
 
   return optionData.options
