@@ -14,6 +14,20 @@ var options = [
               {
                 value: 'b 1',
                 label: 'b 1',
+                options: [
+                  {
+                    value: 'j 1',
+                    label: 'j 1',
+                  },
+                  {
+                    value: 'j 2',
+                    label: 'j 2',
+                  },
+                  {
+                    value: 'j 3',
+                    label: 'j 3',
+                  },
+                ],
               },
               {
                 value: 'b 2',
@@ -28,6 +42,10 @@ var options = [
           {
             value: 'area 3',
             label: 'Area 3',
+          },
+          {
+            value: 'area 4',
+            label: 'Area 4',
           },
         ],
       },

@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import listensToClickOutside from 'react-onclickoutside';
 import suffixedClassName from './suffixedClassName';
-import uniqWith from 'lodash.uniqwith';
-import isEqual from 'lodash.isequal';
 import find from './helper';
 import './style.scss';
 
@@ -23,7 +21,7 @@ class MultiLevelSelect extends React.Component {
   }
 
   selectOption = (data, parent, event) => {
-
+    // console.log('select data', data);
     const { values } = this.state;
     const { value, name, checked } = event.target;
     let recur = [];
@@ -33,7 +31,6 @@ class MultiLevelSelect extends React.Component {
         value,
         label: name,
       };
-      // console.log('selected', data);
       const parentValue = data[0].value;
 
       const findIndex = values.findIndex(x => x.value === parentValue);
@@ -49,42 +46,61 @@ class MultiLevelSelect extends React.Component {
 
 
       recur = this.recur(data, parent, selectedOption, [optionsData]);
-      // console.log('recur', recur);
+      console.log('select recur', recur)
 
       const newData = values.map(i => {
         if (i.value === parentValue)
           return recur[0];
         return i
       });
-      // console.log('newData', newData);
+
       return this.setState({ values: newData }, this.onOptionsChange);
     }
-
     const uncheckedOption = values.map(item => (
       { ...item, options: item.options.filter(option => option.value !== value) }
     )).filter(filterOption => filterOption.options.length !== 0);
+    // console.log('unchecked', uncheckedOption);
+    // const uncheckedOption = this.removeOptionSelected(values, value)
+    // console.log('uncheckedOption', uncheckedOption);
     return this.setState({ values: uncheckedOption }, this.onOptionsChange);
   }
 
+  // removeOptionSelected = (values, option) => {
+  //   // var res = values.filter(function f(o) {
+  //   //   if (o.value.includes(option)) {
+  //   //     console.log('found', o)
+  //   //     return true
+  //   //   }
+  //   //   if (o.options) {
+  //   //     console.log('options', o.options = o.options.filter(f))
+  //   //     return (o.options = o.options.filter(f))
+  //   //   }
+  //   // })
+  //   // return res
+  //   // return values.filter(e => {
+  //   //   if (e.value.includes(option)) {
+  //   //     console.log('found', e)
+  //   //     return false
+  //   //   }
+  //   //   if (e.options)
+  //   //     return this.removeOptionSelected(e.options, option)
+  //   // })
+  // }
+
   recur = (data, parent, selectedOption, optionsData = []) => {
-    // console.log('parent', data, parent);
-    const a = data.map(e => {
+    // console.log('recur data', data);
+    return data.map(e => {
       if (e.options) {
         if (e.value === parent) {
           const optionAvailable = e.options.findIndex(x => x.value === selectedOption.value);
-          if (optionAvailable === -1) {
-            const j = { ...e, options: [...e.options, selectedOption] };
-            // console.log('j', j)
-            return j
-          }
+          if (optionAvailable === -1)
+            return { ...e, options: [...e.options] }
           return e
         }
-        // console.log('a', { ...e, options: [...this.recur(e.options, parent, selectedOption, optionsData)] });
         return { ...e, options: [...this.recur(e.options, parent, selectedOption, optionsData)] }
       }
       return e
     })
-    return uniqWith(a, isEqual);
   }
 
 
@@ -190,7 +206,6 @@ class MultiLevelSelect extends React.Component {
   renderSubMenu = (item, parent = {}) => {
     const { values } = this.state;
     const { options } = this.props;
-    // console.log(options);
     if (item.options) {
       return (
         <>
@@ -206,7 +221,9 @@ class MultiLevelSelect extends React.Component {
         </>
       );
     }
+
     const checked = this.optionChecked(values, item.value, false);
+    // console.log('checked', checked);
     return (
       <>
         <label>
@@ -219,7 +236,7 @@ class MultiLevelSelect extends React.Component {
               onChange={(event) => {
                 let self = this
                 find(values, { value: item.value, label: item.label }, item.value, options, [], function (data) {
-                  // console.log('data received', data);
+                  console.log('data', data);
                   self.selectOption(data, parent.value, event)
                 })
               }}
@@ -232,8 +249,9 @@ class MultiLevelSelect extends React.Component {
     );
   }
 
-  optionChecked = (values, optionValue, checked) => (
-    values.some(e => {
+
+  optionChecked = (values, optionValue, checked) => {
+    return values.some(e => {
       if (e.value === optionValue) {
         checked = true
       }
@@ -242,11 +260,12 @@ class MultiLevelSelect extends React.Component {
       if (e.options)
         return this.optionChecked(e.options, optionValue, checked)
     })
-  )
+  }
 
   render() {
     const { values, isMenuOpen } = this.state;
     const { options } = this.props;
+    // console.log('values', values);
     return (
       <div className="multi-level-selector-container">
         <div
