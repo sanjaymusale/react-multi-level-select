@@ -27,9 +27,7 @@ const findOption = (current, item, selectedOption) => {
   }
 
   const addOption = [...current, { ...current[current.length - 1], options: [selectedOption] }];
-  // console.log('addOption', addOption);
   addOption.splice(addOption.length - 2, 1);
-
 
   const optionsData = item.find(x => x.value === addOption[0].value);
 
@@ -43,37 +41,20 @@ const findOption = (current, item, selectedOption) => {
 }
 
 const addNewOptions = (optionsData = [], data, parent) => {
-  // if (!optionsData.includes(undefined)) {
-  //   return optionsData.map(e => {
-  //     if (e.value === parent) {
-  //       return { ...e, options: [...e.options, ...data[data.length - 1].options] }
-  //     }
-  //     return { ...e, options: [...addNewOptions(e.options, data, parent)] }
-  //   })
-  // }
-  // console.log(optionsData, data);
   let options = {}
   let temp2 = {}
   if (!optionsData.includes(undefined)) {
-    // console.log('optionsData', optionsData, data)
     const current = recur(optionsData, data)
-    // console.log('current', current);
-
     for (var i = current.length - 1; i >= 0; i--) {
-      // console.log('entry cuurent', i, current[i]);
       if (i === current.length - 1) {
         options = { ...current[i] }
-        // console.log('options inside', options);
       }
 
       if (i > 0) {
-        // console.log('current', i - 1, current[i - 1].options);
         temp2 = { ...current[i - 1], options: [...current[i - 1].options, options] }
-        // console.log('temp2', i, temp2);
         options = temp2;
       }
     }
-    // console.log('options', options)
     return [options];
   }
 
@@ -81,7 +62,6 @@ const addNewOptions = (optionsData = [], data, parent) => {
 
 //adds the previous selected options within the options of the parent
 const recur = (optionsData, data) => {
-  // console.log('optionsData', optionsData)
   for (let i = 0; i <= optionsData.length - 1; i++) {
     for (let j = 0; j <= data.length - 1; j++) {
 
@@ -94,14 +74,12 @@ const recur = (optionsData, data) => {
               return item.value !== data[j + 1].value
             return item
           })]
-
-          // console.log('data[j].options', j, data[j].options)
           recur(optionsData[i].options, data)
         }
       }
     }
   }
-  // console.log('recurerwrwewer', data);
   return data;
 }
+
 export default find;

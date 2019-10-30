@@ -56,6 +56,14 @@ var options = [
       {
         value: 'hubli',
         label: 'Hubli',
+      },
+      {
+        value: 'dharwad',
+        label: 'Dharwad',
+      },
+      {
+        value: 'kolkata',
+        label: 'Kolkata',
       }
     ],
   },

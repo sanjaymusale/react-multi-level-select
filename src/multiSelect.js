@@ -33,12 +33,10 @@ class MultiLevelSelect extends React.Component {
         value,
         label: name,
       };
-      // console.log('selected', data);
       const parentValue = data[0].value;
 
       const findIndex = values.findIndex(x => x.value === parentValue);
       if (findIndex === -1) {
-        // console.log('-1 recur', this.recur(data, parent, selectedOption))
         return this.setState(
           { values: [...values, ...this.recur(data, parent, selectedOption)] },
           this.onOptionsChange,
@@ -48,23 +46,17 @@ class MultiLevelSelect extends React.Component {
       let optionsData = values[findIndex];
 
 
-      recur = this.recur(data, parent, selectedOption, [optionsData]);
-      // console.log('recur', recur);
+      recur = this.recur(data, parent, selectedOption, [optionsData])[0];
 
       const newData = values.map(i => {
         if (i.value === parentValue)
-          return recur[0];
+          return recur;
         return i
       });
-      // console.log('newData', newData);
       return this.setState({ values: newData }, this.onOptionsChange);
     }
 
-    // const uncheckedOption = values.map(item => (
-    //   { ...item, options: item.options.filter(option => option.value !== value) }
-    // )).filter(filterOption => filterOption.options.length !== 0);
     const uncheckedOption = this.removeOption([...values], value)
-    console.log('uncheckedOption', uncheckedOption);
     return this.setState({ values: uncheckedOption }, this.onOptionsChange);
   }
 
@@ -79,19 +71,15 @@ class MultiLevelSelect extends React.Component {
   }
 
   recur = (data, parent, selectedOption, optionsData = []) => {
-    // console.log('parent', data, parent);
     const a = data.map(e => {
       if (e.options) {
         if (e.value === parent) {
           const optionAvailable = e.options.findIndex(x => x.value === selectedOption.value);
           if (optionAvailable === -1) {
-            const j = { ...e, options: [...e.options, selectedOption] };
-            // console.log('j', j)
-            return j
+            return { ...e, options: [selectedOption, ...e.options] };
           }
           return e
         }
-        // console.log('a', { ...e, options: [...this.recur(e.options, parent, selectedOption, optionsData)] });
         return { ...e, options: [...this.recur(e.options, parent, selectedOption, optionsData)] }
       }
       return e
@@ -107,27 +95,8 @@ class MultiLevelSelect extends React.Component {
         className={`options-selected-container ${this.getClassName('options-selected-container')}`}
         onClick={event => event.stopPropagation()}
       >
-        <div className={`options-group ${this.getClassName('options-group')}`}>
-          {item.label}
-          {' : '}
-          &nbsp;
-        </div>
-        {item.options.map((data, index) => (
-          <div key={index} className={`options-value ${this.getClassName('options-value')}`}>
-            {(item.options.length >= 2 && index === item.options.length - 1)
-              ? (
-                <span>
-                  <span className={`or-separator ${this.getClassName('or-separator')}`}>OR</span>
-                  <span>
-                    &nbsp;
-                    {data.label}
-                  </span>
-                </span>
-              )
-              : (item.options.length >= 2 && index !== 0) ? `, ${data.label}` : data.label}
-            &nbsp;
-          </div>
-        ))}
+
+        {this.renderSubOptionsSelected([item], i = 0)}
         <div
           onClick={() => this.removeSelectedGroup(item)}
           className={`remove-group ${this.getClassName('remove-group')}`}
@@ -136,6 +105,41 @@ class MultiLevelSelect extends React.Component {
         </div>
       </div>
     )))
+
+  renderSubOptionsSelected = (data) => {
+    return (
+      <>
+        {data.map((item, index) => (
+          <React.Fragment key={`${item.value}-${index}`} >
+            {item.options &&
+              <div className={`options-group ${this.getClassName('options-group')}`}>
+                {` ${item.label}`}
+                {' -> '}
+                &nbsp;
+            </div>
+            }
+            {!item.options &&
+              <div className={`options-value ${this.getClassName('options-value')}`}>
+                {(data.length >= 2 && index === data.length - 1)
+                  ? (
+                    <span>
+                      <span className={`or-separator ${this.getClassName('or-separator')}`}>OR</span>
+                      <span>
+                        &nbsp;
+                      {item.label}
+                      </span>
+                    </span>
+                  )
+                  : (data.length >= 2 && index !== 0) ? `, ${item.label}` : item.label}
+                &nbsp;
+            </div>
+            }
+            {item.options && this.renderSubOptionsSelected(item.options)}
+          </React.Fragment>
+        ))}
+      </>
+    )
+  }
 
   onOptionsChange = () => {
     const { onChange } = this.props;
@@ -215,7 +219,6 @@ class MultiLevelSelect extends React.Component {
   renderSubMenu = (item, parent = {}) => {
     const { values } = this.state;
     const { options } = this.props;
-    // console.log(options);
     if (item.options) {
       return (
         <>
