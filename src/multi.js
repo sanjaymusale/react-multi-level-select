@@ -223,7 +223,6 @@ class MultiLevelSelect extends React.Component {
     }
 
     const checked = this.optionChecked(values, item.value, false);
-    // console.log('checked', checked);
     return (
       <>
         <label>

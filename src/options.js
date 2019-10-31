@@ -34,8 +34,8 @@ var options = [
                 label: 'b 2',
               },
               {
-                value: 'b 3',
-                label: 'b 3',
+                value: 'bangalore',
+                label: 'Bangalore',
               },
             ],
           },
@@ -97,9 +97,81 @@ var options = [
             value: 'd 3',
             label: 'd 3',
           },
+          {
+            value: 'e 3',
+            label: 'e 3',
+          },
         ],
       },
     ],
+  },
+  {
+    value: 'electronics',
+    label: 'Electronics',
+    options: [
+      {
+        value: 'tv',
+        label: 'TV',
+        options: [
+          {
+            value: 'samsung',
+            label: 'Samsung',
+            options: [
+              {
+                value: 'led',
+                label: 'Led',
+                options: [
+                  {
+                    value: '21 inch',
+                    label: '21 inch',
+                  },
+                  {
+                    value: '28 inch',
+                    label: '28 inch',
+                  },
+                  {
+                    value: '32 inch',
+                    label: '32 inch',
+                  },
+                ],
+              },
+              {
+                value: 'lcd',
+                label: 'Lcd',
+              },
+              {
+                value: '4k ultra',
+                label: '4k Ultra',
+              },
+            ],
+          },
+          {
+            value: 'vivo',
+            label: 'Vivo',
+          },
+          {
+            value: 'micromax',
+            label: 'Micromax',
+          },
+        ],
+      },
+      {
+        value: 'mobile',
+        label: 'Mobile',
+      },
+      {
+        value: 'power bank',
+        label: 'Power bank',
+      },
+      {
+        value: 'laptops',
+        label: 'laptops',
+      },
+    ],
+  },
+  {
+    value: 'laptops',
+    label: 'laptops',
   }
 ];
 

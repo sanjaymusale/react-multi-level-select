@@ -56,17 +56,19 @@ class MultiLevelSelect extends React.Component {
       return this.setState({ values: newData }, this.onOptionsChange);
     }
 
-    const uncheckedOption = this.removeOption([...values], value)
+    const uncheckedOption = this.removeOption([...values], value, parent, parent)
     return this.setState({ values: uncheckedOption }, this.onOptionsChange);
   }
 
-  removeOption = (values, removeValue) => {
-    return values.filter(function f(o) {
-      if (o.value.includes(removeValue)) return false
-      if (o.options) {
-        return (o.options = o.options.filter(f)).length
+  removeOption = (values, removeValue, parent, optionParent) => {
+    return values.filter(o => {
+      if (o.value.includes(optionParent)) {
+        return false
       }
-      return true
+      if (o.options) {
+        return (o.options = this.removeOption(o.options, removeValue, parent, o.value)).length
+      }
+      return o
     })
   }
 
@@ -203,18 +205,24 @@ class MultiLevelSelect extends React.Component {
     );
   }
 
-  optionChecked = (values, optionValue, checked) => (
-    values.some(e => {
-      if (e.value === optionValue) {
-        checked = true
+  optionChecked = (values, optionValue, parent) => {
+    // console.log(optionValue, parent);
+    return values.some(e => {
+      if (e.value === parent) {
+        // console.log('inside')
+        return e.options.some(item => {
+          // console.log('item', item)
+          if (item.value === optionValue) {
+            return true
+          }
+        })
       }
-      if (checked === true)
-        return checked
+      // console.log('outside')
       if (e.options)
-        return this.optionChecked(e.options, optionValue, checked)
+        return this.optionChecked(e.options, optionValue, parent)
       return false;
     })
-  )
+  }
 
   renderSubMenu = (item, parent = {}) => {
     const { values } = this.state;
@@ -234,7 +242,15 @@ class MultiLevelSelect extends React.Component {
         </>
       );
     }
-    const checked = this.optionChecked(values, item.value, false);
+    const checked = this.optionChecked(values, item.value, parent.value);
+
+    if (!parent.value) {
+      return (
+        <div className="options-container">
+          <div className={`options-label ${this.getClassName('options-label')}`}>{item.label}</div>
+        </div>
+      )
+    }
     return (
       <>
         <label>
