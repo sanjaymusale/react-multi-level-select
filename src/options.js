@@ -33,10 +33,6 @@ var options = [
                 value: 'b 2',
                 label: 'b 2',
               },
-              {
-                value: 'bangalore',
-                label: 'Bangalore',
-              },
             ],
           },
           {

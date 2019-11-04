@@ -27,7 +27,6 @@ class MultiLevelSelect extends React.Component {
     const { values } = this.state;
     const { value, name, checked } = event.target;
     let recur = [];
-
     if (checked) {
       const selectedOption = {
         value,
@@ -56,13 +55,13 @@ class MultiLevelSelect extends React.Component {
       return this.setState({ values: newData }, this.onOptionsChange);
     }
 
-    const uncheckedOption = this.removeOption([...values], value, parent, parent)
+    const uncheckedOption = this.removeOption(values, value, parent, parent)
     return this.setState({ values: uncheckedOption }, this.onOptionsChange);
   }
 
   removeOption = (values, removeValue, parent, optionParent) => {
     return values.filter(o => {
-      if (o.value.includes(optionParent)) {
+      if (o.value.includes(removeValue)) {
         return false
       }
       if (o.options) {
@@ -243,7 +242,6 @@ class MultiLevelSelect extends React.Component {
       );
     }
     const checked = this.optionChecked(values, item.value, parent.value);
-
     if (!parent.value) {
       return (
         <div className="options-container">
