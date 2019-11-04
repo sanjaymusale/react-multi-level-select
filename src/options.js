@@ -33,6 +33,10 @@ var options = [
                 value: 'b 2',
                 label: 'b 2',
               },
+              {
+                value: 'b 3',
+                label: 'b 3',
+              },
             ],
           },
           {
