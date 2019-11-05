@@ -133,6 +133,14 @@ var options = [
                     value: '32 inch',
                     label: '32 inch',
                   },
+                  {
+                    value: '34 inch',
+                    label: '34 inch',
+                  },
+                  {
+                    value: '36 inch',
+                    label: '36 inch',
+                  },
                 ],
               },
               {
@@ -166,13 +174,10 @@ var options = [
       {
         value: 'laptops',
         label: 'laptops',
-      },
+      }
     ],
   },
-  {
-    value: 'laptops',
-    label: 'laptops',
-  }
+
 ];
 
 export default options;

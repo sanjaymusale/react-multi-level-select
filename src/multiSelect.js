@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import listensToClickOutside from 'react-onclickoutside';
 import suffixedClassName from './suffixedClassName';
-import uniqWith from 'lodash.uniqwith';
-import isEqual from 'lodash.isequal';
-import find from './helper';
+import findParentStructure from './helper';
 import './style.scss';
 
 class MultiLevelSelect extends React.Component {
@@ -25,69 +23,45 @@ class MultiLevelSelect extends React.Component {
   selectOption = (data, parent, event) => {
 
     const { values } = this.state;
-    const { value, name, checked } = event.target;
-    let recur = [];
+    const { value, checked } = event.target;
     if (checked) {
-      const selectedOption = {
-        value,
-        label: name,
-      };
-      const parentValue = data[0].value;
 
+      const parentValue = data.value;
+      const updatedOption = data;
       const findIndex = values.findIndex(x => x.value === parentValue);
+
       if (findIndex === -1) {
         return this.setState(
-          { values: [...values, ...this.recur(data, parent, selectedOption)] },
+          { values: [...values, updatedOption] },
           this.onOptionsChange,
         );
       }
 
-      let optionsData = values[findIndex];
-
-
-      recur = this.recur(data, parent, selectedOption, [optionsData])[0];
-
-      const newData = values.map(i => {
-        if (i.value === parentValue)
-          return recur;
-        return i
+      const newData = values.map(item => {
+        if (item.value === parentValue)
+          return updatedOption;
+        return item
       });
+
       return this.setState({ values: newData }, this.onOptionsChange);
     }
 
-    const uncheckedOption = this.removeOption(values, value, parent, parent)
+    const uncheckedOption = this.removeOption(values, parent, value, parent);
     return this.setState({ values: uncheckedOption }, this.onOptionsChange);
   }
 
-  removeOption = (values, removeValue, parent, optionParent) => {
-    return values.filter(o => {
-      if (o.value.includes(removeValue)) {
-        return false
+  removeOption = (values, optionParent, removeOption, removeOptionParent) => {
+    return values.filter(item => {
+      if (item.value.includes(removeOption)) {
+        if (optionParent === removeOptionParent)
+          return false;
       }
-      if (o.options) {
-        return (o.options = this.removeOption(o.options, removeValue, parent, o.value)).length
+      if (item.options) {
+        return (item.options = this.removeOption(item.options, item.value, removeOption, removeOptionParent)).length
       }
-      return o
+      return item
     })
   }
-
-  recur = (data, parent, selectedOption, optionsData = []) => {
-    const a = data.map(e => {
-      if (e.options) {
-        if (e.value === parent) {
-          const optionAvailable = e.options.findIndex(x => x.value === selectedOption.value);
-          if (optionAvailable === -1) {
-            return { ...e, options: [selectedOption, ...e.options] };
-          }
-          return e
-        }
-        return { ...e, options: [...this.recur(e.options, parent, selectedOption, optionsData)] }
-      }
-      return e
-    })
-    return uniqWith(a, isEqual);
-  }
-
 
   renderOptionsSelected = values => (
     values.map((item, i) => (
@@ -205,18 +179,10 @@ class MultiLevelSelect extends React.Component {
   }
 
   optionChecked = (values, optionValue, parent) => {
-    // console.log(optionValue, parent);
     return values.some(e => {
       if (e.value === parent) {
-        // console.log('inside')
-        return e.options.some(item => {
-          // console.log('item', item)
-          if (item.value === optionValue) {
-            return true
-          }
-        })
+        return e.options.some(item => item.value === optionValue)
       }
-      // console.log('outside')
       if (e.options)
         return this.optionChecked(e.options, optionValue, parent)
       return false;
@@ -260,9 +226,13 @@ class MultiLevelSelect extends React.Component {
               name={item.label}
               onChange={(event) => {
                 let self = this
-                find(values, { value: item.value, label: item.label }, item.value, options, [], function (data) {
-                  self.selectOption(data, parent.value, event)
-                })
+                if (!checked) {
+                  findParentStructure(values, { value: item.value, label: item.label }, item.value, options, [], parent.value, (data) => {
+                    self.selectOption(data, parent.value, event)
+                  })
+                } else {
+                  self.selectOption({}, parent.value, event)
+                }
               }}
             />
             <div className="checkbox"><span className="checkmark" /></div>
