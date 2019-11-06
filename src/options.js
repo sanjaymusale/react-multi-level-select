@@ -1,5 +1,97 @@
 var options = [
   {
+    value: 'option 1',
+    label: 'Option 1'
+  },
+  {
+    value: 'option 2',
+    label: 'Option 2'
+  },
+  {
+    value: 'fruits',
+    label: 'Fruits',
+    options: [
+      {
+        value: 'citrus',
+        label: 'Citrus',
+        options: [
+          {
+            value: 'orange',
+            label: 'Orange',
+          },
+          {
+            value: 'grapefruits',
+            label: 'GrapeFruits',
+          },
+          {
+            value: 'limes',
+            label: 'Limes',
+          },
+          {
+            value: 'mandarins',
+            label: 'Mandarins',
+          },
+        ],
+      },
+      {
+        value: 'tropical',
+        label: 'Tropical',
+        options: [
+          {
+            value: 'mango',
+            label: 'Mango',
+          },
+          {
+            value: 'papaya',
+            label: 'Papaya',
+          },
+          {
+            value: 'pomegranate',
+            label: 'Pomegranate',
+          },
+          {
+            value: 'guava',
+            label: 'Guava',
+          },
+        ],
+      },
+      {
+        value: 'berries',
+        label: 'Berries',
+        options: [
+          {
+            value: 'strawberry',
+            label: 'Strawberry',
+          },
+          {
+            value: 'raspberries',
+            label: 'Raspberries',
+          },
+          {
+            value: 'blueberries',
+            label: 'Blueberries',
+          },
+          {
+            value: 'kiwifruit',
+            label: 'Kiwifruit',
+          },
+          {
+            value: 'passionfruit',
+            label: 'PassionFruit',
+          },
+        ],
+      },
+      {
+        value: 'apple',
+        label: 'Apple',
+      },
+      {
+        value: 'banana',
+        label: 'Banana',
+      }
+    ],
+  },
+  {
     value: 'city',
     label: 'City',
     options: [
@@ -8,266 +100,167 @@ var options = [
         label: 'Delhi',
         options: [
           {
-            value: 'area 1',
-            label: 'Area 1',
+            value: 'north delhi',
+            label: 'North Delhi',
             options: [
               {
-                value: 'b 1',
-                label: 'b 1',
-                options: [
-                  {
-                    value: 'j 1',
-                    label: 'j 1',
-                  },
-                  {
-                    value: 'j 2',
-                    label: 'j 2',
-                  },
-                  {
-                    value: 'j 3',
-                    label: 'j 3',
-                  },
-                ],
+                value: 'malikpur chawni',
+                label: 'Malikpur Chawni',
               },
               {
-                value: 'b 2',
-                label: 'b 2',
+                value: 'narela',
+                label: 'Narela',
               },
               {
-                value: 'b 3',
-                label: 'b 3',
+                value: 'khera kalan',
+                label: 'Khera Kalan',
               },
             ],
           },
           {
-            value: 'area 3',
-            label: 'Area 3',
+            value: 'south delhi',
+            label: 'South Delhi',
+            options: [
+              {
+                value: 'rai pithora',
+                label: 'Rai Pithora',
+              },
+              {
+                value: 'mehrauli',
+                label: 'Mehrauli',
+              },
+              {
+                value: 'siri',
+                label: 'Siri',
+              },
+            ],
           },
           {
-            value: 'area 4',
-            label: 'Area 4',
+            value: 'west delhi',
+            label: 'West Delhi',
+            options: [
+              {
+                value: 'patel nagar',
+                label: 'Patel Nagar',
+              },
+              {
+                value: 'rajouri garden',
+                label: 'Rajouri Garden',
+              },
+              {
+                value: 'punjabi bagh',
+                label: 'Punjabi Bagh',
+              },
+            ],
           },
         ],
       },
       {
         value: 'bangalore',
         label: 'Bangalore',
-      },
-      {
-        value: 'hubli',
-        label: 'Hubli',
-      },
-      {
-        value: 'dharwad',
-        label: 'Dharwad',
-      },
-      {
-        value: 'kolkata',
-        label: 'Kolkata',
-      }
-    ],
-  },
-  {
-    value: 'office',
-    label: 'Office',
-    options: [
-      {
-        value: 'c',
-        label: 'c',
         options: [
           {
-            value: 'd 1',
-            label: 'd 1',
+            value: 'banashankari',
+            label: 'Banashankari',
             options: [
               {
-                value: 'e 1',
-                label: 'e 1',
-              },
-              {
-                value: 'e 2',
-                label: 'e 2',
-              },
-              {
-                value: 'e 3',
-                label: 'e 3',
-              },
-            ],
-          },
-          {
-            value: 'd 3',
-            label: 'd 3',
-          },
-          {
-            value: 'e 3',
-            label: 'e 3',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: 'electronics',
-    label: 'Electronics',
-    options: [
-      {
-        value: 'tv',
-        label: 'TV',
-        options: [
-          {
-            value: 'samsung',
-            label: 'Samsung',
-            options: [
-              {
-                value: 'led',
-                label: 'Led',
+                value: '1st stage',
+                label: '1st Stage',
                 options: [
                   {
-                    value: '21 inch',
-                    label: '21 inch',
+                    value: 'hanumanthanagar',
+                    label: 'Hanumanthanagar',
                   },
                   {
-                    value: '28 inch',
-                    label: '28 inch',
+                    value: 'srinagar',
+                    label: 'Srinagar',
                   },
                   {
-                    value: '32 inch',
-                    label: '32 inch',
+                    value: 'srinagar',
+                    label: 'Srinagar',
                   },
                   {
-                    value: '34 inch',
-                    label: '34 inch',
+                    value: 'brindavan nagar',
+                    label: 'Brindavan Nagar',
                   },
-                  {
-                    value: '36 inch',
-                    label: '36 inch',
-                  },
-                ],
+                ]
               },
               {
-                value: 'lcd',
-                label: 'Lcd',
+                value: '2nd stage',
+                label: '2nd Stage',
+                options: [
+                  {
+                    value: 'kadirenahalli',
+                    label: 'Kadirenahalli',
+                  },
+                  {
+                    value: 'teachers colony',
+                    label: 'Teachers Colony',
+                  },
+                  {
+                    value: 'yarab nagar',
+                    label: 'Yarab Nagar',
+                  },
+                  {
+                    value: 'karesandra',
+                    label: 'Karesandra',
+                  },
+                ]
               },
               {
-                value: '4k ultra',
-                label: '4k Ultra',
+                value: '3rd stage',
+                label: '3rd Stage',
+                options: [
+                  {
+                    value: 'hosakerehalli',
+                    label: 'Hosakerehalli',
+                  },
+                  {
+                    value: 'kathriguppe',
+                    label: 'Kathriguppe',
+                  },
+                  {
+                    value: 'channammanakere',
+                    label: 'Channammanakere',
+                  },
+                  {
+                    value: 'kamakya layout',
+                    label: 'Kamakya layout',
+                  },
+                ]
+              }
+            ]
+          },
+          {
+            value: 'koramangala',
+            label: 'Koramangala',
+            options: [
+              {
+                value: '1st block',
+                label: '1st Block',
               },
-            ],
+              {
+                value: '2nd block',
+                label: '2nd Block',
+              },
+              {
+                value: 'jakasandra block',
+                label: 'Jakasandra Block',
+              },
+            ]
           },
           {
-            value: 'vivo',
-            label: 'Vivo',
+            value: 'hebbal',
+            label: 'Hebbal',
           },
           {
-            value: 'micromax',
-            label: 'Micromax',
-          },
-        ],
+            value: 'jayanagar',
+            label: 'Jayanagar',
+          }
+        ]
       },
-      {
-        value: 'mobile',
-        label: 'Mobile',
-      },
-      {
-        value: 'power bank',
-        label: 'Power bank',
-      },
-      {
-        value: 'laptops',
-        label: 'laptops',
-      }
     ],
   },
-
 ];
 
 export default options;
-
-// {
-//   value: 'dublin',
-//     label: 'Dublin',
-//       options: [
-//         {
-//           value: 'area 1',
-//           label: 'Area 1',
-//         },
-//         {
-//           value: 'area 2',
-//           label: 'Area 2',
-//         },
-//         {
-//           value: 'area 3',
-//           label: 'Area 4',
-//         },
-//       ],
-//       },
-// {
-//   value: 'new york',
-//     label: 'New York',
-//       },
-// {
-//   value: 'san fransis',
-//     label: 'San Fransis',
-//       },
-// {
-//   value: 'shanghai',
-//     label: 'Shanghai',
-//       },
-
-//     ],
-//   },
-// {
-//   value: 'fruits',
-//     label: 'Fruits',
-//       options: [
-//         {
-//           value: 'apple',
-//           label: 'Apple',
-//         },
-//         {
-//           value: 'blackberry',
-//           label: 'Blackberry',
-//         },
-//         {
-//           value: 'cherry',
-//           label: 'Cherry',
-//         },
-//         {
-//           value: 'dragonfruit',
-//           label: 'Dragonfruit',
-//         },
-//         {
-//           value: 'mango',
-//           label: 'Mango',
-//         },
-//       ],
-//   },
-// {
-//   value: 'user',
-//     label: 'User',
-//       options: [
-//         {
-//           value: 'bob frapples',
-//           label: 'Bob Frapples',
-//         },
-//         {
-//           value: 'brock lee',
-//           label: 'Brock Lee',
-//         },
-//         {
-//           value: 'eddy kitt',
-//           label: 'Eddy Kitt',
-//         },
-//         {
-//           value: 'juan annatoo',
-//           label: 'Juan Annatoo',
-//         },
-//         {
-//           value: 'tara misu',
-//           label: 'Tara Misu',
-//         },
-//         {
-//           value: 'tom ollie',
-//           label: 'Tom Ollie',
-//         },
-//       ],
-//   },
