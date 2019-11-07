@@ -31,7 +31,6 @@ class App extends React.Component {
             <MultiSelect
               options={options}
               onChange={this.onChange}
-              className="test"
             />
           </div>
           <div className="output-container">
